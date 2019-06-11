@@ -1,0 +1,63 @@
+<div>
+  <table>
+      <caption class = "tabletitle"> Employees</caption>
+    <tr>
+      <th>Firstname</th>
+      <th>Lastname</th>
+      <th>Nickname</th>
+      <th>Salary</th>
+      <th></th>
+      <th></th>
+    </tr>
+
+    <tr *ngFor="let item of Customers.Employees.Employee; let i = index">
+      <td type = "text" id="{{'firstname'+i}}" contentEditable=true>
+        {{item.firstname}}
+      </td>
+      <td type = "text" id="{{'lastname'+i}}" contentEditable=true>
+        {{item.lastname}}
+      </td>
+      <td type = "text" id="{{'nickname'+i}}" contentEditable=true>
+        {{item.nickname}}
+      </td>
+      <td type = "number" id="{{'salary'+i}}" contentEditable=true>
+        {{item.salary}}
+      </td>
+      <td><button (click)="Save(item)" class="btn btn-success">Save</button></td>
+      <td><button (click)="Delete(item)" class="btn btn-success">Delete</button></td>
+    </tr>
+
+    <tr>
+      <td>
+        <input type="text" [(ngModel)]="newitem.firstname" required>
+      </td>
+      <td type = "text">
+       <input type="text" [(ngModel)]="newitem.lastname" required> 
+      </td>
+      <td type = "text">
+        <input type="text" [(ngModel)]="newitem.nickname" required>
+      </td>
+      <td type = "number">
+        <input type="number" [(ngModel)]="newitem.salary" required>
+      </td>
+      <td><button class="btn btn-success" (click)="Add()">Add</button></td>
+      <td></td>
+    </tr>
+  </table>
+<br><br>
+  <table class = "emp">
+      <caption class = "tabletitle"> Updated JSON</caption>
+        <tr>  
+            <th>Firstname</th>
+            <th>Lastname</th>  
+            <th>Nickname</th>        
+            <th>Salary</th>          
+        </tr>        
+        <tr *ngFor="let item of Customers.Employees.Employee; let i = index">  
+            <td>{{item.firstname}}</td>
+            <td>{{item.lastname}}</td>
+            <td>{{item.nickname}}</td>        
+            <td>{{item.salary}}</td>
+        </tr>
+    </table>
+</div>
