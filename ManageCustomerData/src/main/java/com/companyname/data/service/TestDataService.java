@@ -1,51 +1,84 @@
 package com.companyname.data.service;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.apache.commons.io.FileUtils;
+import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.XML;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+
+import com.companyname.domain.KeyValue;
+
 
 @Service
 public class TestDataService {
-
-	public String getJson(MultipartFile File) throws IOException, JSONException {
+ 
+	public List<KeyValue> getJson(MultipartFile File) throws IOException, JSONException {
+		List<KeyValue> lhm = new ArrayList<>();
 		File xml;
 		xml=convert(File);
-		String xmlData = FileUtils.readFileToString(xml,
-				"UTF-8");
-		
-		Document doc = convertStringToXMLDocument(xmlData);
-		NodeList childNodes = doc.getChildNodes();
-		for(int i=0; i<childNodes.getLength();i++){
-			doSomething(childNodes.item(i));
+		try {
+		SAXBuilder saxBuilder = new SAXBuilder();
+		Document document = saxBuilder.build(xml);
+		System.out.println("Root element :" + document.getRootElement().getName());
+		org.jdom2.Element classElement = document.getRootElement();
+
+		List<org.jdom2.Element> children = classElement.getChildren();
+		System.out.println("----------------------------");
+
+		for (int i = 0; i < children.size(); i++) {
+			org.jdom2.Element element = children.get(i);
+			PrintNodes(element,lhm);
+			
+            
 		}
+		System.out.println("-----------printing----------------");
+		lhm.stream().forEach(System.out::println);
 		
-		JSONObject json= XML.toJSONObject(xmlData);
-		Iterator<String> keys= json.keys();
-		while(keys.hasNext()) {
-			System.out.println(" :: "+keys.next());
-		}
-		return json.toString();
-		
+	} catch (JDOMException e) {
+		e.printStackTrace();
+	} catch (IOException ioe) {
+		ioe.printStackTrace();
 	}
+		return lhm;
+	}
+public static void PrintNodes(org.jdom2.Element element,List<KeyValue> lhm) {
+	
+	
+
+	List<org.jdom2.Element> elementList = element.getChildren();
+
+	if (elementList.size() > 0) {
+		
+		System.out.println(element.getName());
+		
+		KeyValue keyValue = new KeyValue();
+		
+		keyValue.setKey(element.getName());
+		keyValue.setValue(null);
+		lhm.add(keyValue);
+		
+		  for (int i = 0; i <elementList.size(); i++) 
+		  { 
+			  org.jdom2.Element element2 = elementList.get(i);
+			  PrintNodes(element2,lhm); 
+		  }
+		 
+	} else {
+		KeyValue keyValue = new KeyValue();
+		
+		keyValue.setKey(element.getName());
+		keyValue.setValue(element.getText());
+		lhm.add(keyValue);
+		System.out.println(element.getName()+"\t\t"+element.getText());
+	}
+}
+
 	
 	public static File convert(MultipartFile file) throws IOException {
 
@@ -58,40 +91,5 @@ public class TestDataService {
 
     }
 	
-	private static Document convertStringToXMLDocument(String xmlString)
-    {
-        //Parser that produces DOM object trees from XML content
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-         
-        //API to obtain DOM Document instance
-        DocumentBuilder builder = null;
-        try
-        {
-            //Create DocumentBuilder with default configuration
-            builder = factory.newDocumentBuilder();
-             
-            //Parse the content to Document object
-            Document doc = builder.parse(new InputSource(new StringReader(xmlString)));
-            return doc;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-	public static void doSomething(Node node) {
-	    // do something with the current node instead of System.out
-	    System.out.println(node.getNodeName());
-
-	    NodeList nodeList = node.getChildNodes();
-	    for (int i = 0; i < nodeList.getLength(); i++) {
-	        Node currentNode = nodeList.item(i);
-	        if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-	            //calls this method for all the children which is Element
-	            doSomething(currentNode);
-	        }
-	    }
-	}	
 }
+

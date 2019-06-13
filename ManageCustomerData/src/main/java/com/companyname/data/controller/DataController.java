@@ -1,6 +1,8 @@
 package com.companyname.data.controller;
+import com.companyname.domain.KeyValue;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +20,9 @@ public class DataController {
 	private TestDataService testDataService;
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping(path = "/getxml")
-	public String getJson(@RequestParam("file") MultipartFile File) throws IOException, JSONException {
-		String response = testDataService.getJson(File);
+	public List<KeyValue> getJson(@RequestParam("file") MultipartFile File) throws IOException, JSONException {
+		List<KeyValue> response=null;
+		response = testDataService.getJson(File);
 		System.out.println("file content : " + response);
 		return response;
 	}

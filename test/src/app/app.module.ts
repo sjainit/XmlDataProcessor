@@ -7,8 +7,8 @@ import { CrudComponent } from './crud/crud.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-
-
+import { DataService } from './data.service';
+import {Subject} from 'rxjs';
 const appRoutes: Routes = [
   { path: 'crud', component:CrudComponent }
 ];
@@ -20,6 +20,7 @@ const appRoutes: Routes = [
     FileSelectDirective,
     AppComponent,
     CrudComponent,
+  
   ],
   imports: [
     BrowserModule,
@@ -31,7 +32,7 @@ const appRoutes: Routes = [
       { enableTracing: true } // <-- debugging purposes only
     )
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

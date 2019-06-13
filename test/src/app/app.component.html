@@ -1,8 +1,8 @@
 <input type="file" name="photo" ng2FileSelect [uploader]="uploader" />
 
-<button type="button" class="btn btn-success btn-s" 
-  (click)="uploader.uploadAll()" 
-  [disabled]="!uploader.getNotUploadedItems().length" routerLink="/crud" routerLinkActive="active" >
+<button type="button" class="btn btn-success btn-s"
+  (click)="uploader.uploadAll()"
+  [disabled]="!uploader.getNotUploadedItems().length" routerLink="/crud"  routerLinkActive="active" >
       Upload the XML
 </button>
 <router-outlet></router-outlet>
