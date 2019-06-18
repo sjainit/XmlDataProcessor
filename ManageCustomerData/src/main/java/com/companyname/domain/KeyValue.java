@@ -1,25 +1,36 @@
 package com.companyname.domain;
 
 public class KeyValue {
-	private  String key;
-	private  String value;
-	
-	public  String getKey() {
-		return key;
+	private String tagName;
+
+	public String getTagName() {
+		return tagName;
 	}
-	public  void setKey(String Key) {
-		this.key = Key;
+
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
 	}
-	public  String getValue() {
-		return value;
+
+	public String getTagValue() {
+		return tagValue;
 	}
-	public  void setValue(String value) {
-		this.value = value;
+
+	public void setTagValue(String tagValue) {
+		this.tagValue = tagValue;
 	}
-	
-	@Override
+
+	private String tagValue;
+
+//	private String XPath;
+//	
+//	public String getXPath() {
+//		return XPath;
+//	}
+//	public void setXPath(String xPath) {
+//		XPath = xPath;
+//	}
 	public String toString() {
-		return key+"\t"+value;
+		return tagName + "\t" + tagValue;
 	}
 
 }

@@ -3,10 +3,11 @@ package com.companyname.data.dto;
 import java.util.Date;
 
 public class ErrorDetails {
-	
+
 	private Date timestamp;
 	private String errorMessage;
 	private String errorDesc;
+
 	public String getErrorMessage() {
 		return errorMessage;
 	}
@@ -23,15 +24,12 @@ public class ErrorDetails {
 		this.errorDesc = errorDesc;
 	}
 
-	
-	
 	public Date setTimestamp(Date timestamp) {
-		return this.timestamp=timestamp;
+		return this.timestamp = timestamp;
 	}
-	public Date getTimestamp()
-	{
+
+	public Date getTimestamp() {
 		return timestamp;
 	}
-		
 
 }
