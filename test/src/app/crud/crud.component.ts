@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { isNull } from 'util';
-import { AppComponent } from '../app.component';
 import { DataService } from '../data.service';
-//import { DataService } from "../data.service";
 
 @Component({
   selector: 'app-crud',
@@ -11,39 +8,65 @@ import { DataService } from '../data.service';
 })
 export class CrudComponent implements OnInit {
 
-  recieveddata: any[];
-  xml: any;
-  keys:any;
-  values:any;
-  //Customers:string;
-  constructor(private dataService: DataService) {
+  receiveddata: any[];
+  keys: any;
+  values: any;
+  
+    constructor(private dataService: DataService) {
     this.dataService.shareDataSubject.subscribe(receiveddata => {
-      this.recieveddata = receiveddata;
+      this.receiveddata = receiveddata;
       this.xmlData(receiveddata);
     });
   }
 
-  //constructor(private data: DataService) { }
-
-  xmlData(recieveddata)
-  {
-    this.keys=Array<String>();
-    this.values=Array<String>();
-   console.log(typeof(recieveddata));
-   console.log(recieveddata);
-   recieveddata=JSON.parse(recieveddata);
+  xmlData(receiveddata) {
    
-   recieveddata.forEach(element => {
-    this.keys.push(element.key);
-    this.values.push(element.value);
-   });
-  } 
-
-  ngOnInit() {
-   
-    //this.data.currentMessage.subscribe(message => this.Customers = message);
+    this.receiveddata = JSON.parse(receiveddata);
+    this.keys = Object.keys(this.receiveddata);
+    this.values = Object.values(this.receiveddata);
+    console.log(this.values.tagName);
+    //console.log(typeof(this.values));
+    console.log(Object.values(this.values));
+    console.log(this.receiveddata);
+    console.log(this.receiveddata);
+    //console.log(this.keys[0]);
+    //console.log(typeof(this.keys));
+  
   }
 
+  ngOnInit() {
+
+  }
+Save(item, i){
+var newvalue = document.getElementById('value'+i).innerText;
+console.log(newvalue);
+this.values[i].tagValue= newvalue;
+
+}
+Delete(item, i){
+  var random = document.getElementById('value'+i).innerText;
+  if(!i){
+    alert("You can not delete root element!")
+  }
+  else if (window.confirm("Do you want to delete: " + random)) {
+    this.values.splice(i, 1);
+    this.keys.splice(i,1);
+    //this.Xpath.splice(i,1);
+  } 
+}
+
+Add(item, i){
+  var random = document.getElementById('value'+i).innerText;
+  if(!i && !random)
+  {alert("You can not add a root element. Only one root element allowed!")}
+  else {
+    var newtagName = document.getElementById('name'+i).innerText.concat("1");
+    var newxpath = document.getElementById('xpath'+i).innerText.concat("1");
+    this.values.splice(i+1,0,newtagName);
+    this.keys.splice(i+1,0,newxpath);
+    this.values.splice(i+1,0,"");
+  }
+}
   /* Save(item) {
     console.log()
      var index = this.Customers.Employees.Employee.indexOf(item);
